@@ -1,2 +1,5 @@
-# unistrap
-bloxstrap and then you remove blox and add uni and then boom
+# Unistrap
+An ugly, yet powerful Roblox bootstrapper.
+
+## When does this go public?
+AFter I edit some code and stuff
