@@ -43,10 +43,10 @@ FILE_PATHS = {
 
 # download file from roblox site to downloads folder
 def download_file(url, dest_path):
-    os.makedirs(os.path.dirname(dest_path), exist_ok=True)  # Ensure the destination directory exists
+    os.makedirs(os.path.dirname(dest_path), exist_ok=True) 
     try:
         print(f"Requesting: {url}")
-        response = requests.get(url, stream=True, timeout=30)  # Added timeout
+        response = requests.get(url, stream=True, timeout=30)
         response.raise_for_status()
         with open(dest_path, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
@@ -58,7 +58,7 @@ def download_file(url, dest_path):
 
 # extract zip from downloads folder
 def extract_zip(file_path, extract_to):
-    os.makedirs(extract_to, exist_ok=True)  # Ensure extraction directory exists
+    os.makedirs(extract_to, exist_ok=True)
     try:
         with zipfile.ZipFile(file_path, 'r') as zip_ref:
             zip_ref.extractall(extract_to)
@@ -93,7 +93,7 @@ def debug_missing_files():
 # why is this here
 def process_manifest():
     try:
-        response = requests.get(MANIFEST_URL, timeout=30)  # Added timeout
+        response = requests.get(MANIFEST_URL, timeout=30)
         response.raise_for_status()
         manifest = response.text
     except requests.RequestException as e:
