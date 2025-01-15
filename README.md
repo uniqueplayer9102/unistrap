@@ -1,8 +1,8 @@
 # Unistrap
-An ugly, yet powerful Roblox bootstrapper.
+An ugly, yet powerful and minimalistic Roblox bootstrapper.
 
 > [!CAUTION]
 > This build is very experiemental. Be careful. 
 
-## When does this go public?
-After I edit some code and stuff
+## What is this?
+This is an custom Roblox bootstrapper, like Bloxstrap. However, I need to code features and stuff, so it really becomes something like Bloxstrap.
