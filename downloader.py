@@ -42,16 +42,20 @@ FILE_PATHS = {
 }
 
 # download file from roblox site to downloads folder
-def download_file(url, dest_path):
-    os.makedirs(os.path.dirname(dest_path), exist_ok=True) 
+def download_file(url, dest_path, total_files, current_file_index, file_size):
+    os.makedirs(os.path.dirname(dest_path), exist_ok=True)
     try:
         print(f"Requesting: {url}")
         response = requests.get(url, stream=True, timeout=30)
         response.raise_for_status()
+        downloaded_size = 0
         with open(dest_path, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
-                file.write(chunk)
-        print(f"Downloaded successfully to {dest_path}")
+                if chunk:
+                    file.write(chunk)
+                    downloaded_size += len(chunk)
+                    print(f"[File {current_file_index}/{total_files}] Downloaded {downloaded_size / 1024 / 1024:.2f} MB of {file_size / 1024 / 1024:.2f} MB", end="\r")
+        print(f"\nDownloaded successfully to {dest_path}")
     except requests.RequestException as e:
         print(f"Error downloading file from {url}: {e}")
         raise
@@ -141,6 +145,7 @@ def organize_files():
     ]
     files = list(set(files + essential_files))
 
+    total_files = len(files)
     for index, file_name in enumerate(files):
         file_url = base_url + "-" + file_name
         dest_path = os.path.join(DOWNLOAD_DIR, file_name)
@@ -152,14 +157,17 @@ def organize_files():
             continue
         extract_dir = os.path.join(ROOT_DIR, extract_dir)
 
-        # Log current progress
-        print(f"[{index + 1}/{len(files)}] Processing {file_name}")
+        # log the current progress of downloading
+        print(f"[{index + 1}/{total_files}] Processing {file_name}")
 
-        # Download file
+        # download the file
         if not os.path.exists(dest_path):
             print(f"Downloading {file_name} from {file_url}")
             try:
-                download_file(file_url, dest_path)
+                response = requests.head(file_url, timeout=30)
+                response.raise_for_status()
+                file_size = int(response.headers.get('Content-Length', 0))
+                download_file(file_url, dest_path, total_files, index + 1, file_size)
             except requests.RequestException:
                 print(f"Skipping {file_name} due to download error.")
                 continue
@@ -172,7 +180,7 @@ def organize_files():
             try:
                 extract_zip(dest_path, extract_dir)
             except zipfile.BadZipFile:
-                print(f"Skipping extraction of {file_name} due to error.")
+                print(f"Skipping extraction of {file_name} due to error")
                 continue
 
     print("Success!")
