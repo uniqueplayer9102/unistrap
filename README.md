@@ -1,5 +1,5 @@
 # Unistrap
-An ugly, yet powerful and minimalistic Roblox bootstrapper.
+An minimalistic and powerful Roblox bootstrapper.
 
 > [!CAUTION]
 > This build is very experiemental. Be careful. 
