@@ -184,13 +184,13 @@ def organize_files():
                 continue
 
     print("Success!")
-    source_file = os.path.join(FILE_DIR, "AppSettings.xml")
+    app_file = os.path.join(FILE_DIR, "AppSettings.xml")
 
     if os.path.exists(ROOT_DIR):
-        destination_path = os.path.join(ROOT_DIR, "AppSettings.xml")
+        app_path = os.path.join(ROOT_DIR, "AppSettings.xml")
         try:
-            shutil.copy(source_file, destination_path)
-            print(f"AppSettings.xml file copied to {destination_path}")
+            shutil.copy(app_file, app_path)
+            print(f"AppSettings.xml file copied to {app_path}")
         except FileNotFoundError:
             print("AppSettings.xml not found")
     else:
